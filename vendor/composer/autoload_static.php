@@ -11,16 +11,27 @@ class ComposerStaticInit512d663eb44937374da1a7d33f6845f3
         array (
             'Utils\\' => 6,
         ),
+        'S' => 
+        array (
+            'Svg\\' => 4,
+            'Sabberworm\\CSS\\' => 15,
+        ),
         'M' => 
         array (
             'Models\\' => 7,
+            'Masterminds\\' => 12,
         ),
         'L' => 
         array (
             'Lib\\' => 4,
         ),
+        'F' => 
+        array (
+            'FontLib\\' => 8,
+        ),
         'D' => 
         array (
+            'Dompdf\\' => 7,
             'Danie\\Academia\\' => 15,
         ),
         'C' => 
@@ -34,13 +45,33 @@ class ComposerStaticInit512d663eb44937374da1a7d33f6845f3
         array (
             0 => __DIR__ . '/../..' . '/Utils',
         ),
+        'Svg\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/phenx/php-svg-lib/src/Svg',
+        ),
+        'Sabberworm\\CSS\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/sabberworm/php-css-parser/src',
+        ),
         'Models\\' => 
         array (
             0 => __DIR__ . '/../..' . '/Models',
         ),
+        'Masterminds\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/masterminds/html5/src',
+        ),
         'Lib\\' => 
         array (
             0 => __DIR__ . '/../..' . '/Lib',
+        ),
+        'FontLib\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/phenx/php-font-lib/src/FontLib',
+        ),
+        'Dompdf\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/dompdf/dompdf/src',
         ),
         'Danie\\Academia\\' => 
         array (
@@ -54,6 +85,7 @@ class ComposerStaticInit512d663eb44937374da1a7d33f6845f3
 
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
+        'Dompdf\\Cpdf' => __DIR__ . '/..' . '/dompdf/dompdf/lib/Cpdf.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

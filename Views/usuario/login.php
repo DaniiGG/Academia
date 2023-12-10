@@ -64,14 +64,22 @@ body {
             border-radius: 5px;
             margin-bottom: 15px;
         }
+        h6{
+            text-align: center;
+        }
         strong{
             text-align: center;
         }
     </style>
 </head>
 <body>
-<?php if(!isset($_SESSION['identity'])): ?>
 <h2>Login</h2>
+<?php use Utils\Utils; ?>
+    <?php if(isset($_SESSION['error_login']) && $_SESSION['error_login'] == 'failed'): ?> 
+        <h6> <strong class="alert_red">Registro fallido, introduzca bien los datos</strong> </h6>
+        <?php endif; ?>
+<?php Utils::deleteSession('error_login'); ?>
+
 <form action="<?=BASE_URL?>usuario/login/" method="post"> 
 <label for="nombre_usuario">Nombre de usuario</label>
 <input type="text" name="data[nombre_usuario]" id="nombre_usuario" />
@@ -81,7 +89,7 @@ body {
 <br>
 <input type="submit" value="Enviar" />
 </form>
-<?php endif; ?>
+
 </body>
 </html>
 

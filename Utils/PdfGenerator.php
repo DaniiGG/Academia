@@ -3,15 +3,7 @@
 namespace Utils;
 
 
-class Utils{
-    public static function deleteSession($name):void{
-    if(isset($_SESSION[$name])){
-    $_SESSION[$name] = null;
-    unset($_SESSION[$name]);
-    }
-    }
 
-}
 
 
 class PDFGenerator {
@@ -25,8 +17,12 @@ class PDFGenerator {
         }
 
         ob_start();
-        require_once "Views/layout/header.php";
-        require_once "Views/$pageName.php";
+        if (!empty($params)) {
+            require_once "Views/$pageName.php";
+        } else {
+            // Si no hay datos, muestra un mensaje alternativo en el PDF
+            echo '<h3>No hay datos disponibles para mostrar.</h3>';
+        }
         $htmlContent = ob_get_clean();
 
         return $htmlContent;

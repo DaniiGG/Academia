@@ -79,6 +79,10 @@ body {
     <h6>  <strong class="alert_green">Registro completado correctamente</strong> </h6>
     <?php elseif(isset($_SESSION['materia_added']) && $_SESSION['materia_added'] == 'failed'): ?> 
         <h6> <strong class="alert_red">Registro fallido, introduzca bien los datos</strong> </h6>
+        <?php elseif(isset($_SESSION['materia_added']) && $_SESSION['materia_added'] == 'duplicate'): ?> 
+        <h6> <strong class="alert_red">Registro fallido, esa asignatura ya esta asignada</strong> </h6>
+        <?php elseif(isset($_SESSION['materia_added']) && $_SESSION['materia_added'] == 'invalid_format'): ?> 
+        <h6> <strong class="alert_red">Registro fallido, la primera letra debe empezar por mayúscula</strong> </h6>
         <?php endif; ?>
 <?php Utils::deleteSession('materia_added'); ?>
         <form action="<?= BASE_URL ?>materia/agregarMateria/" method="post">
@@ -86,7 +90,7 @@ body {
             <label for="nombre_materia">Nombre de la Materia:</label><br>
             <input type="text" id="nombre_materia" name="nombre_materia" required><br>
             
-            <label for="id_profesor">Profesores:</label>
+            <label for="id_profesor">Profesor de la materia:</label>
             <select id="id_profesor" name="id_profesor" required>
             <option value="" disabled selected>Selecciona un profesor</option>
             <?php

@@ -79,6 +79,10 @@ body {
         <h6> <strong class="alert_green">Registro completado correctamente</strong> </h6>
     <?php elseif(isset($_SESSION['alumno_added']) && $_SESSION['alumno_added'] == 'failed'): ?> 
         <h6><strong class="alert_red">Registro fallido, introduzca bien los datos</strong> </h6>
+        <?php elseif(isset($_SESSION['alumno_added']) && $_SESSION['alumno_added'] == 'invalid_format'): ?> 
+        <h6><strong class="alert_red">Registro fallido, el nombre y apellidos del alumno deben empezar por mayúscula</strong> </h6>
+        <?php elseif(isset($_SESSION['alumno_added']) && $_SESSION['alumno_added'] == 'empty_fields'): ?> 
+        <h6><strong class="alert_red">Registro fallido, los campos deben estar rellenos</strong> </h6>
         <?php endif; ?>
     <?php Utils::deleteSession('alumno_added'); ?>
 

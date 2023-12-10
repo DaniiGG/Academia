@@ -76,15 +76,21 @@ body {
     <h6><strong class="alert_green">Registro completado correctamente</strong></h6> 
     <?php elseif(isset($_SESSION['register']) && $_SESSION['register'] == 'failed'): ?> 
         <h6> <strong class="alert_red">Registro fallido, introduzca bien los datos</strong> </h6>
+        <?php elseif(isset($_SESSION['register']) && $_SESSION['register'] == 'invalid_name_format'): ?> 
+        <h6> <strong class="alert_red">Registro fallido, el nombre debe empezar por mayúscula</strong> </h6>
+        <?php elseif(isset($_SESSION['register']) && $_SESSION['register'] == 'invalid_last_name_format'): ?> 
+        <h6> <strong class="alert_red">Registro fallido, los apellidos deben empezar por mayuscula, y deben ser al menos 2</strong> </h6>
+        <?php elseif(isset($_SESSION['register']) && $_SESSION['register'] == 'empty_fields'): ?> 
+        <h6> <strong class="alert_red">Registro fallido, loas campos no pueden estar vacios</strong> </h6>
         <?php endif; ?>
 <?php Utils::deleteSession('register'); ?>
 <form action="<?=BASE_URL?>usuario/registro/" method="POST"> 
 
 <label for="nombre">Nombre</label>
-<input type="text" name="data[nombre]" required/>
+<input type="text" name="data[nombre]"  value="<?php echo isset($_SESSION['nombre']) ? $_SESSION['nombre'] : ''; ?>" required/>
 <br>
 <label for="apellidos">Apellidos</label>
-<input type="text" name="data[apellidos]" required/>
+<input type="text" name="data[apellidos]" value="<?php echo isset($_SESSION['apellidos']) ? $_SESSION['apellidos'] : ''; ?>" required/>
 <br>
 <label for="nombre_usuario">Nombre de usuario</label>
 <input type="text" name="data[nombre_usuario]" required/>

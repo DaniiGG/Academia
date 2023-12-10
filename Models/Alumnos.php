@@ -53,6 +53,8 @@ class Alumnos{
 		$this->id_padre = $value;
 	}
 
+
+	// Función para insertar valores en la tabla alumnos
     public function save(): bool {
 		$id = NULL;
         $nombre = $this->getNombre();
@@ -77,7 +79,12 @@ class Alumnos{
     }
 
 
-
+		/**
+	 * Función para obtener el ID de un alumno basado en su nombre y apellidos.
+	 * Busca en la base de datos el ID del alumno que coincide con el nombre y apellidos proporcionados.
+	 * Devuelve el ID del alumno encontrado o NULL si no se encuentra ningún alumno.
+	 * Maneja excepciones en caso de error en la consulta.
+	 */
 
 	public function obtenerIdPorNombreYApellidos($nombre, $apellidos) {
 		try {
@@ -94,8 +101,30 @@ class Alumnos{
 				return null; // Si no se encuentra el alumno, devuelve NULL o puedes manejarlo de otra manera según tu lógica de la aplicación
 			}
 		} catch (PDOException $err) {
-			// Manejar la excepción si ocurre algún error en la consulta
 			return null;
 		}
 	}
+
+
+	/**
+	 * Función para obtener todos los nombres y apellidos de los alumnos.
+	 * Realiza una consulta a la base de datos para obtener el ID, nombre y apellidos de todos los alumnos.
+	 * Devuelve un arreglo con la información de los alumnos encontrados.
+	 * Maneja excepciones en caso de error en la consulta.
+	 */
+
+	public function obtenerTodosLosNombresApellidos(): array {
+		try {
+			$query = "SELECT id, nombre, apellidos FROM alumnos";
+			$statement = $this->db->prepare($query);
+			$statement->execute();
+	
+			$result = $statement->fetchAll(PDO::FETCH_ASSOC);
+			return $result;
+		} catch (PDOException $err) {
+			return [];
+		}
+	}
+
+
 }
