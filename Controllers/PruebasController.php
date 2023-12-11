@@ -64,42 +64,48 @@ class PruebasController {
      * Redirige a la página de registro de pruebas una vez se completa el proceso.
      */
     public function agregarPrueba(): void {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // Verificar si el usuario tiene permiso de administrador para registrar usuarios
+        if ($_SESSION['identity'] && (($_SESSION['identity']->rol === 'profesor')||($_SESSION['identity']->rol === 'admin'))) {
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                // Obtener datos del formulario
-                $id_materia = $_POST['id_materia'];
-                $trimestre = $_POST['trimestre'];
-                $nombre_alumno = $_POST['nombre_alumno'];
-                $apellidos_alumno = $_POST['apellidos_alumno'];
-                $horario = $_POST['horario'];
-                $nota = $_POST['nota'];
-        
-                // Buscar el ID del alumno basado en el nombre y apellidos
-                $alumno = new Alumnos();
-                $id_alumno = $alumno->obtenerIdPorNombreYApellidos($nombre_alumno, $apellidos_alumno);
-        
-                if ($id_alumno) {
-                    $pruebaModel = new Pruebas();
-                    $pruebaExistente = $pruebaModel->verificarNotaExistente($id_alumno, $id_materia, $trimestre);
-                    
-                    if ($pruebaExistente) {
-                        $_SESSION['prueba_added'] = "duplicate";
-                    } else {
-                        $prueba = new Pruebas(null, $id_materia, $trimestre, $id_alumno, $horario, $nota);
-                        $save = $prueba->save();
-        
-                        if ($save) {
-                            $_SESSION['prueba_added'] = "complete";
+                // Verificar si el usuario tiene permiso de administrador para registrar usuarios
+                if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                    // Obtener datos del formulario
+                    $id_materia = $_POST['id_materia'];
+                    $trimestre = $_POST['trimestre'];
+                    $nombre_alumno = $_POST['nombre_alumno'];
+                    $apellidos_alumno = $_POST['apellidos_alumno'];
+                    $horario = $_POST['horario'];
+                    $nota = $_POST['nota'];
+            
+                    // Buscar el ID del alumno basado en el nombre y apellidos
+                    $alumno = new Alumnos();
+                    $id_alumno = $alumno->obtenerIdPorNombreYApellidos($nombre_alumno, $apellidos_alumno);
+            
+                    if ($id_alumno) {
+                        $pruebaModel = new Pruebas();
+                        $pruebaExistente = $pruebaModel->verificarNotaExistente($id_alumno, $id_materia, $trimestre);
+                        
+                        if ($pruebaExistente) {
+                            $_SESSION['prueba_added'] = "duplicate";
                         } else {
-                            $_SESSION['prueba_added'] = "failed";
+                            $prueba = new Pruebas(null, $id_materia, $trimestre, $id_alumno, $horario, $nota);
+                            $save = $prueba->save();
+            
+                            if ($save) {
+                                $_SESSION['prueba_added'] = "complete";
+                            } else {
+                                $_SESSION['prueba_added'] = "failed";
+                            }
                         }
+                    } else {
+                        $_SESSION['prueba_added'] = "failed";
                     }
-                } else {
-                    $_SESSION['prueba_added'] = "failed";
                 }
+            
+                header('Location:'.BASE_URL.'pruebas/registroPrueba/');
             }
-        
+        }else {
+            // Manejar el caso en el que no se encuentra un profesor en la sesión o no tiene el rol adecuado
+            $_SESSION['prueba_added'] = "failed";
             header('Location:'.BASE_URL.'pruebas/registroPrueba/');
         }
     }
@@ -198,19 +204,26 @@ class PruebasController {
      */
     public function eliminarPrueba() {
         $id = $_GET['id'] ?? null;
-        if ($id) {
-            $pruebaModel = new Pruebas();
-            $result = $pruebaModel->eliminarPrueba($id);
     
-            if ($result) {
-                $_SESSION['prueba_deleted'] = "complete";
-            } else {
-                $_SESSION['prueba_deleted'] = "failed";
+        if ($_SESSION['identity'] && ($_SESSION['identity']->rol === 'profesor' || $_SESSION['identity']->rol === 'admin')) {
+            if ($id) {
+                $pruebaModel = new Pruebas();
+                $result = $pruebaModel->eliminarPrueba($id);
+    
+                if ($result) {
+                    $_SESSION['prueba_deleted'] = "complete";
+                } else {
+                    $_SESSION['prueba_deleted'] = "failed";
+                }
             }
+        } else {
+            // Manejar el caso en el que el usuario no tiene permisos
+            $_SESSION['prueba_deleted'] = "unauthorized";
         }
     
         header('Location:' . BASE_URL . 'pruebas/registroPrueba/');
     }
+    
 
 
 
