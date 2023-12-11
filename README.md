@@ -1,4 +1,5 @@
 -- MI BASE DE DATOS
+-- USUARIO admin123 CONTRASEÑA contraseña123
 
 drop database if exists academia;
 Create database academia;
